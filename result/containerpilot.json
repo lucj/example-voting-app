@@ -1,0 +1,31 @@
+{
+  "consul": "consul:8500",
+  "services": [
+    {
+      "name": "result",
+      "health": "/usr/bin/curl -o /dev/null --fail -s http://localhost",
+      "poll": 3,
+      "ttl": 10,
+      "port": 80
+    }
+  ],
+  "coprocesses": [
+    {
+      "command": ["/usr/local/bin/consul", "agent",
+                  "-data-dir=/data",
+                  "-config-dir=/config",
+                  "-rejoin",
+                  "-retry-join", "consul",
+                  "-retry-max", "10",
+                  "-retry-interval", "10s"],
+      "restarts": "unlimited"
+    }
+  ],
+  "backends": [
+    {
+      "name": "db",
+      "poll": 3,
+      "onChange": "pkill -SIGHUP node"
+    }
+  ]
+}

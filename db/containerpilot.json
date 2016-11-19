@@ -1,0 +1,12 @@
+{
+  "consul": "consul:8500",
+  "services": [
+    {
+      "name": "db",
+      "health": "/usr/lib/postgresql/9.4/bin/postgres --version",
+      "poll": 3,
+      "ttl": 10,
+      "port": 80
+    }
+  ]
+}

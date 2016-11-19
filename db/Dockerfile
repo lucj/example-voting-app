@@ -1,7 +1,4 @@
-FROM mhart/alpine-node:5
-
-# RUN sed -i -e 's/dl-cdn/dl-4/' /etc/apk/repositories && \
-#     apk add --no-cache curl
+FROM postgres:9.4-alpine
 
 RUN apk update && \
     apk add curl && \
@@ -29,13 +26,5 @@ ENV CONTAINERPILOT_PATH=/etc/containerpilot.json
 COPY containerpilot.json ${CONTAINERPILOT_PATH}
 ENV CONTAINERPILOT=file://${CONTAINERPILOT_PATH}
 
-# Install our application
-WORKDIR /app
-ADD package.json /app/package.json
-RUN npm config set registry http://registry.npmjs.org
-RUN npm install
-RUN mv /app/node_modules /node_modules
-ADD . /app
-ENV PORT 80
-EXPOSE 80 
-CMD [ "/bin/containerpilot", "node", "server.js" ]
+USER postgres
+CMD [ "/bin/containerpilot", "postgres"]

@@ -1,0 +1,38 @@
+consul:
+  image: autopilotpattern/consul:latest
+  restart: always
+  dns:
+    — 127.0.0.1
+  ports:
+    - "8500"
+  command: >
+    /usr/local/bin/containerpilot
+    /bin/consul agent -server
+      -config-dir=/etc/consul
+      -bootstrap-expect 1
+      -ui-dir /ui
+vote:
+  image: docker/example-voting-app-vote:latest
+  links:
+    - redis:redis
+  ports:
+    - "80"
+result:
+  build: ./result
+  links:
+    - db:db
+    - consul:consul
+  ports:
+    - "80"
+worker:
+  image: docker/example-voting-app-worker:latest
+  links:
+    - redis:redis
+    - db:db
+redis:
+  image: redis:alpine
+db:
+  # build: ./db
+  image: postgres:9.4-alpine
+  links:
+    - consul:consul
