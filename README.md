@@ -64,7 +64,7 @@ $ kubectl create namespace vote
 
 Run the following command to create the deployments and services objects:
 ```
-$ kubectl create -f k8s-specifications/
+$ kubectl apply -f k8s-specifications/ -n vote
 deployment "db" created
 service "db" created
 deployment "redis" created
