@@ -5,7 +5,6 @@ metadata:
     app: worker
   name: worker
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: worker
@@ -15,5 +14,12 @@ spec:
         app: worker
     spec:
       containers:
-      - image: lucj/voting:result
+      - image: lucj/voting:worker
         name: worker
+        resources:
+          limits:
+            cpu: 80m
+            memory: 128Mi
+          requests:
+            cpu: 80m
+            memory: 128Mi

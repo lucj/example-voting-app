@@ -5,7 +5,6 @@ metadata:
     app: db
   name: db
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: db
@@ -28,6 +27,13 @@ spec:
         volumeMounts:
         - mountPath: /var/lib/postgresql/data
           name: db-data
+        resources:
+          limits:
+            cpu: 80m
+            memory: 64Mi
+          requests:
+            cpu: 80m
+            memory: 64Mi
       volumes:
       - name: db-data
-        emptyDir: {} 
+        emptyDir: {}

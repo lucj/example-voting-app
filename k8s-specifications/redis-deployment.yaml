@@ -5,7 +5,6 @@ metadata:
     app: redis
   name: redis
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: redis
@@ -15,7 +14,7 @@ spec:
         app: redis
     spec:
       containers:
-      - image: redis:alpine
+      - image: redis
         name: redis
         ports:
         - containerPort: 6379
@@ -23,6 +22,13 @@ spec:
         volumeMounts:
         - mountPath: /data
           name: redis-data
+        resources:
+          limits:
+            cpu: 80m
+            memory: 64Mi
+          requests:
+            cpu: 80m
+            memory: 64Mi
       volumes:
       - name: redis-data
-        emptyDir: {} 
+        emptyDir: {}
